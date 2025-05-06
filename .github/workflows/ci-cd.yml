@@ -1,0 +1,32 @@
+name: CI/CD Pipeline
+on: [push]  # Kích hoạt khi có push lên repo
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test  # (Nếu có test)
+
+  deploy:
+    needs: test  # Chạy sau khi test pass
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy to Server (Ví dụ)
+        run: |
+          echo "Triển khai ứng dụng lên server..."
+          # Thêm lệnh SSH hoặc deploy lên VPS/AWS ở đây
